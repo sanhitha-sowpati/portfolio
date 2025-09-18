@@ -1,4 +1,8 @@
+import { useState } from 'react';
+
 function Navbar(){
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
     const scrollToSection = (sectionId) => {
         const element = document.getElementById(sectionId);
         if (element) {
@@ -7,6 +11,8 @@ function Navbar(){
                 block: 'start'
             });
         }
+        // Close mobile menu after navigation
+        setIsMobileMenuOpen(false);
     };
 
     return(
@@ -83,14 +89,59 @@ function Navbar(){
                     
                     {/* Mobile menu button */}
                     <div className="md:hidden">
-                        <button className="text-gray-700 hover:text-pink-500 focus:outline-none focus:text-pink-500 transition-colors duration-300 p-2">
+                        <button 
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="text-gray-700 hover:text-pink-500 focus:outline-none focus:text-pink-500 transition-colors duration-300 p-2"
+                        >
                             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                {isMobileMenuOpen ? (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                ) : (
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                )}
                             </svg>
                         </button>
                     </div>
                 </div>
             </div>
+            
+            {/* Mobile Menu Dropdown */}
+            {isMobileMenuOpen && (
+                <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg border-t border-gray-200">
+                    <div className="px-4 py-2 space-y-1">
+                        <button 
+                            onClick={() => scrollToSection('Hero')}
+                            className="block w-full text-left px-3 py-2 text-gray-700 hover:text-pink-500 hover:bg-pink-50 rounded-lg text-sm font-bold transition-all duration-300"
+                        >
+                            Home
+                        </button>
+                        <button 
+                            onClick={() => scrollToSection('About')}
+                            className="block w-full text-left px-3 py-2 text-gray-700 hover:text-pink-500 hover:bg-pink-50 rounded-lg text-sm font-bold transition-all duration-300"
+                        >
+                            About
+                        </button>
+                        <button 
+                            onClick={() => scrollToSection('Education')}
+                            className="block w-full text-left px-3 py-2 text-gray-700 hover:text-pink-500 hover:bg-pink-50 rounded-lg text-sm font-bold transition-all duration-300"
+                        >
+                            Education
+                        </button>
+                        <button 
+                            onClick={() => scrollToSection('Projects')}
+                            className="block w-full text-left px-3 py-2 text-gray-700 hover:text-pink-500 hover:bg-pink-50 rounded-lg text-sm font-bold transition-all duration-300"
+                        >
+                            Projects
+                        </button>
+                        <button 
+                            onClick={() => scrollToSection('contact')}
+                            className="block w-full text-left px-3 py-2 text-gray-700 hover:text-pink-500 hover:bg-pink-50 rounded-lg text-sm font-bold transition-all duration-300"
+                        >
+                            Contact
+                        </button>
+                    </div>
+                </div>
+            )}
         </nav>
     )
 }
